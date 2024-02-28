@@ -7,13 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% vite_hmr_client %}
-    {% vite_asset 'js/main.js' %}  <!-- Caminho relativo ao diretório 'static/src' -->
-
     <title>Teste</title>
   </head>
 
   <body>
-    <h1>Teste Teste Teste</h1>
+    <div id="app"></div> <!-- Container para renderizar o aplicativo Vue -->
+    {% vite_hmr_client %}
+    {% vite_asset 'js/main.js' %}
   </body>
 </html>

@@ -1,7 +1,10 @@
 import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
-export default {
-  plugins: [],
+
+export default defineConfig({
+  plugins: [vue()],
   root: './static/src',
   base: '/static/', // Defina o base como '/static/'
   server: {
@@ -14,7 +17,10 @@ export default {
     },
   },
   resolve: {
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.json', '.vue'],
+    alias: {
+      'vue': 'vue/dist/vue.esm-bundler.js'
+    }
   },
   build: {
     outDir: resolve(__dirname, 'C:\Users\joaorc\Desktop\roteiroweb\setup\static\src'), // Caminho absoluto onde os arquivos serão armazenados
@@ -31,4 +37,4 @@ export default {
       },
     },
   },
-};
+});
