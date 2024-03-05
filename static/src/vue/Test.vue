@@ -1,7 +1,6 @@
 <template>
     <div>
-      <h1>Se isso aparecer</h1>
-      <p>o vue está integrado</p>
+      <h1>Está puxando do Vue, teste de pagina inical</h1>
     </div>
   </template>
   
@@ -14,7 +13,8 @@
   <style scoped>
   /* Estilos específicos para este componente */
   h1 {
-    color: purple;
+    color: black;
+    font: arial;
   }
   </style>
   

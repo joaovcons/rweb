@@ -2,17 +2,22 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Materiais</title>
 
-    <title>Teste</title>
-  </head>
-
-  <body>
-    <div id="app"></div> <!-- Container para renderizar o aplicativo Vue -->
+    <!-- Scripts do Vue p/ integração -->
     {% vite_hmr_client %}
-    {% vite_asset 'js/main.js' %}
-  </body>
+    {% vite_asset 'js/main.js' %} 
+</head>
+
+<body>
+  <div id="app">
+    <!-- Renderiza o componente MaterialList.vue -->
+    <MaterialList />
+  </div>
+</body>
+
+
 </html>

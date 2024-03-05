@@ -1,13 +1,15 @@
-import { createApp } from 'vue';
-import TestComponent from '../vue/Test.vue';
+import { createApp } from 'vue'
+import MaterialList from '../vue/MaterialList.vue'
 
-// Crie uma instância do aplicativo Vue
 const app = createApp({
-  template: '<TestComponent />',
+  template: `
+    <div>
+      <MaterialList />
+    </div>
+  `,
   components: {
-    TestComponent
+    MaterialList
   }
 });
 
-// Monte o aplicativo Vue dentro do elemento #app
-app.mount('#app');
+app.mount('#app')
