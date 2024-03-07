@@ -5,6 +5,7 @@
       <h1>{{ material.retranca }}</h1>
       <p>Cliente: {{ material.cliente }}</p>
       <p>Choques: {{ material.choques }}</p>
+      <p>Exibicao: {{ material.exibicao }}</p>
       <!-- Adicione mais detalhes conforme necessário -->
     </div>
   </template>

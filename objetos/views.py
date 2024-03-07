@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Sum
+from django.db.models import F
 
 class MaterialListView(APIView):
     def get(self, request):
@@ -66,38 +66,14 @@ def adicionar_materiais(request):
                     )
                     material.save()
 
-            # Processa os materiais após adicioná-los ou atualizá-los
-            processar_materiais()
-
-            excluir_fade_local()
+            excluir_fade_rede()
+            excluir_PD()
 
             return JsonResponse({'mensagem': 'Materiais adicionados com sucesso'}, status=201)
         else:
             return JsonResponse({'erro': 'O JSON deve conter uma lista de materiais'}, status=400)
     else:
         return JsonResponse({'erro': 'Apenas solicitações POST são suportadas'}, status=400)
-
-def processar_materiais():
-    # Agrupa os materiais por 'pt' e 'programa' e calcula a soma da duração para cada grupo
-    materiais_agrupados = Material.objects.values('pt', 'programa').annotate(duracao_total=Sum('duracao'))
-    for grupo in materiais_agrupados:
-        # Recupera os materiais do grupo
-        materiais_grupo = Material.objects.filter(pt=grupo['pt'], programa=grupo['programa'])
-        # Verifica se há materiais com exibicao = 'L' ou 'M' no grupo e que não são o Fade Local
-        materiais_exibicao = materiais_grupo.filter(exibicao__in=['L', 'M']).exclude(cm='CM000000')
-        if materiais_exibicao.exists():
-            # Calcula a soma da duração dos materiais com exibição 'L' ou 'M'
-            duracao_total_exibicao = materiais_exibicao.aggregate(duracao_total_exibicao=Sum('duracao'))['duracao_total_exibicao']
-            # Recupera o material 'FADE' do grupo, se existir
-            material_fade = materiais_grupo.filter(retranca='FADE').first()
-            if material_fade:
-                # Subtrai a soma da duração dos materiais com exibição 'L' ou 'M' do valor de 'duracao' do material 'FADE'
-                material_fade.duracao = max(0, material_fade.duracao - duracao_total_exibicao)
-                material_fade.save()
-
-def excluir_fade_local():
-    # Exclui todos os materiais com cm igual a 'CM000000'
-    Material.objects.filter(cm='CM000000').delete()
 
 def index(request):
     return render(request, "index.html")
@@ -111,3 +87,13 @@ class MaterialListView(APIView):
         materiais = Material.objects.all()
         serializer = MaterialSerializer(materiais, many=True)
         return Response(serializer.data)
+
+def excluir_fade_rede():
+    # Exclui todos os fades do maestro
+    Material.objects.filter(cm='FADE').delete()
+    Material.objects.filter(cm='FADER').delete()
+    Material.objects.filter(cm='FADER1').delete()
+
+def excluir_PD():
+    # Exclui todos os materiais com tipo vazio (ou seja, PD)
+    Material.objects.filter(tipo='').delete()

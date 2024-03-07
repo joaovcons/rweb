@@ -16,6 +16,7 @@
         :class="{
            'green-background': material.exibicao === 'R' && material.retranca != 'FADE',
            'yellow-background': material.tipo === 'PT' && material.exibicao === 'M',
+           'fade': material.cm === 'CM000000',
           //  Outros condicionais de formatação no futuro
          }">
           <h3 class="material-title" @click="irParaDetalhesDoMaterial(material.id)">
@@ -129,6 +130,10 @@ h3 {
 
 .yellow-background{
   background-color: rgb(254, 254, 109);
+}
+.fade{
+  background-color: rgb(197, 197, 197);
+
 }
 </style>
 
