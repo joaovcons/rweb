@@ -11,3 +11,6 @@ class Material (models.Model):
     data = models.CharField(max_length=10)
     pt = models.CharField(max_length=5)
     programa = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.retranca} ({self.programa}, {self.pt})"

@@ -82,6 +82,42 @@ def material_detail(request, pk):
     material = Material.objects.get(pk=pk)
     return render(request, 'material_detail.html', {'material': material})
 
+def editar_material(request, pk):
+    material = Material.objects.get(pk=pk)
+    return render(request, 'editar_material.html', {'material': material})
+
+@csrf_exempt
+def criar_material(request):
+    if request.method == 'POST':
+        try:
+            # Obter os dados do novo material do corpo da solicitação e analisá-los como JSON
+            data = json.loads(request.body)
+            print("Dados recebidos:", data)
+            
+            # Agora data é um dicionário Python que você pode acessar diretamente
+            material = Material.objects.create(
+                cm=data['cm'],
+                retranca=data['retranca'],
+                duracao=data['duracao'],
+                tipo=data['tipo'],
+                cliente=data['cliente'],
+                choques=data['choques'],
+                exibicao=data['exibicao'],
+                data=data['data'],
+                pt=data['pt'],
+                programa=data['programa'],
+            )
+
+            return JsonResponse({'message': 'Novo material criado com sucesso!'}, status=201)
+        except Exception as e:
+            # Se ocorrer algum erro durante o processamento dos dados ou ao salvar no banco de dados
+            # você pode retornar uma resposta de erro
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        # Se a solicitação não for do tipo POST, retorne uma resposta de erro
+        return JsonResponse({'error': 'Método não permitido'}, status=405)
+
+
 class MaterialListView(APIView):
     def get(self, request):
         materiais = Material.objects.all()
