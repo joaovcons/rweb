@@ -1,11 +1,30 @@
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Material</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Adicione seu arquivo de estilos CSS aqui -->
 </head>
+
+
+
 <body>
-    <h1>Teste Edição</h1>
+  <h1>Editar Material</h1>
+  <form id="editarMaterialForm">
+    <div>
+      <label for="cm">CM:</label>
+      <input type="text" id="cm" name="cm" placeholder="{{ material.cm }}">
+    </div>
+    <div>
+      <label for="retranca">Retranca:</label>
+      <input type="text" id="retranca" name="retranca" placeholder= "{{ material.retranca }}">
+    </div>
+    <!-- Adicione os demais campos do formulário conforme necessário -->
+    <button type="submit">Salvar</button>
+    <script src="C:\Users\joaorc\Desktop\roteiroweb\setup\static\src\js\editar_material.js"></script>
+  </form>
 </body>
 </html>
