@@ -11,20 +11,10 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F
 
-class MaterialListView(APIView):
-    def get(self, request):
-        materiais = Material.objects.all()
-        serializer = MaterialSerializer(materiais, many=True)
-        return Response(serializer.data)
 
-class MaterialDetailView(APIView):
-    def get(self, request, pk):
-        material = Material.objects.get(pk=pk)
-        serializer = MaterialSerializer(material)
-        return Response(serializer.data)
+#CRUD de Materiais ------------------------------------------------------------------------------------------
 
 @csrf_exempt # talvez isso aqui precise tirar em algum momento por questões de segurança
-
 def adicionar_materiais(request):
     if request.method == 'POST':
         # Recebe o objeto JSON da solicitação POST
@@ -75,17 +65,6 @@ def adicionar_materiais(request):
     else:
         return JsonResponse({'erro': 'Apenas solicitações POST são suportadas'}, status=400)
 
-def index(request):
-    return render(request, "index.html")
-
-def material_detail(request, pk):
-    material = Material.objects.get(pk=pk)
-    return render(request, 'material_detail.html', {'material': material})
-
-def editar_material(request, pk):
-    material = Material.objects.get(pk=pk)
-    return render(request, 'editar_material.html', {'material': material})
-
 @csrf_exempt
 def criar_material(request):
     if request.method == 'POST':
@@ -117,13 +96,6 @@ def criar_material(request):
         # Se a solicitação não for do tipo POST, retorne uma resposta de erro
         return JsonResponse({'error': 'Método não permitido'}, status=405)
 
-
-class MaterialListView(APIView):
-    def get(self, request):
-        materiais = Material.objects.all()
-        serializer = MaterialSerializer(materiais, many=True)
-        return Response(serializer.data)
-
 def excluir_fade_rede():
     # Exclui todos os fades do maestro
     Material.objects.filter(cm='FADE').delete()
@@ -133,3 +105,29 @@ def excluir_fade_rede():
 def excluir_PD():
     # Exclui todos os materiais com tipo vazio (ou seja, PD)
     Material.objects.filter(tipo='').delete()
+
+#Views das páginas ----------------------------------------------------------------------------------------------
+def index(request):
+    return render(request, "index.html")
+
+def material_detail(request, pk):
+    material = Material.objects.get(pk=pk)
+    return render(request, 'material_detail.html', {'material': material})
+
+def editar_material(request, pk):
+    material = Material.objects.get(pk=pk)
+    return render(request, 'editar_material.html', {'material': material})
+
+
+#Outras views ------------------------------------------------------------------------------------------------
+class MaterialListView(APIView):
+    def get(self, request):
+        materiais = Material.objects.all()
+        serializer = MaterialSerializer(materiais, many=True)
+        return Response(serializer.data)
+
+class MaterialDetailView(APIView):
+    def get(self, request, pk):
+        material = Material.objects.get(pk=pk)
+        serializer = MaterialSerializer(material)
+        return Response(serializer.data)
